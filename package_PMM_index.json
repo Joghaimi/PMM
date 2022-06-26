@@ -1,0 +1,60 @@
+{
+  "packages":
+  [ 
+    {
+      "name": "PMM",
+      "maintainer": "PMM LLC",
+      "websiteURL": "pmm-usa.us",
+      "email" : "ahmad.joghaimi@gmail.com",
+      "platforms":
+      [
+        {
+          "name": "PMM Boards",
+          "architecture": "samd",
+          "version": "0.0.12",
+          "category": "Contributed",
+          "url": "https://github.com/Joghaimi/PMM/tree/main/Custom_Board/1.8.11/Custom_Board.zip",
+          "archiveFileName": "Custom_Board.zip",
+          "checksum": "SHA-1:ae3243d1eb545feaedd278491451328d3cfa745a",
+          "size": "4636086",
+          "boards": [
+            {
+              "name": "PMM0620"
+            }
+          ],
+          "toolsDependencies":
+          [
+            {
+              "packager": "arduino",
+              "name": "arm-none-eabi-gcc",
+              "version": "7-2017q4"
+            },
+            {
+              "packager": "arduino",
+              "name": "bossac",
+              "version": "1.8.0-48-gb176eee"
+            },
+            {
+              "packager": "arduino",
+              "name": "openocd",
+              "version": "0.10.0-arduino9"
+            },
+            {
+              "packager": "arduino",
+              "name": "CMSIS",
+              "version": "4.5.0"
+            },
+            {
+              "packager": "arduino",
+              "name": "CMSIS-Atmel",
+              "version": "1.2.0"
+            }
+          ]
+        }
+      ],
+      "tools":
+      [
+      ]
+    }
+  ]
+}
