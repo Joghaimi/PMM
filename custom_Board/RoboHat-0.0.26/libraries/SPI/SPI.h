@@ -21,18 +21,21 @@
 #define _SPI_H_INCLUDED
 
 #include <Arduino.h>
-#include <api/HardwareSPI.h>
 
 // SPI_HAS_TRANSACTION means SPI has
 //   - beginTransaction()
 //   - endTransaction()
 //   - usingInterrupt()
 //   - SPISetting(clock, bitOrder, dataMode)
-// #define SPI_HAS_TRANSACTION 1
-// Every core implementing arduino API has SPI transaction
+#define SPI_HAS_TRANSACTION 1
 
 // SPI_HAS_NOTUSINGINTERRUPT means that SPI has notUsingInterrupt() method
 #define SPI_HAS_NOTUSINGINTERRUPT 1
+
+#define SPI_MODE0 0x02
+#define SPI_MODE1 0x00
+#define SPI_MODE2 0x03
+#define SPI_MODE3 0x01
 
 #if defined(ARDUINO_ARCH_SAMD)
   // The datasheet specifies a typical SPI SCK period (tSCK) of 42 ns,
@@ -42,9 +45,55 @@
   #define SPI_MIN_CLOCK_DIVIDER (uint8_t)(1 + ((F_CPU - 1) / 12000000))
 #endif
 
-class SPIClassSAMD : public arduino::HardwareSPI {
+class SPISettings {
   public:
-  SPIClassSAMD(SERCOM *p_sercom, uint8_t uc_pinMISO, uint8_t uc_pinSCK, uint8_t uc_pinMOSI, SercomSpiTXPad, SercomRXPad);
+  SPISettings(uint32_t clock, BitOrder bitOrder, uint8_t dataMode) {
+    if (__builtin_constant_p(clock)) {
+      init_AlwaysInline(clock, bitOrder, dataMode);
+    } else {
+      init_MightInline(clock, bitOrder, dataMode);
+    }
+  }
+
+  // Default speed set to 4MHz, SPI mode set to MODE 0 and Bit order set to MSB first.
+  SPISettings() { init_AlwaysInline(4000000, MSBFIRST, SPI_MODE0); }
+
+  private:
+  void init_MightInline(uint32_t clock, BitOrder bitOrder, uint8_t dataMode) {
+    init_AlwaysInline(clock, bitOrder, dataMode);
+  }
+
+  void init_AlwaysInline(uint32_t clock, BitOrder bitOrder, uint8_t dataMode) __attribute__((__always_inline__)) {
+    this->clockFreq = (clock >= (F_CPU / SPI_MIN_CLOCK_DIVIDER) ? F_CPU / SPI_MIN_CLOCK_DIVIDER : clock);
+
+    this->bitOrder = (bitOrder == MSBFIRST ? MSB_FIRST : LSB_FIRST);
+
+    switch (dataMode)
+    {
+      case SPI_MODE0:
+        this->dataMode = SERCOM_SPI_MODE_0; break;
+      case SPI_MODE1:
+        this->dataMode = SERCOM_SPI_MODE_1; break;
+      case SPI_MODE2:
+        this->dataMode = SERCOM_SPI_MODE_2; break;
+      case SPI_MODE3:
+        this->dataMode = SERCOM_SPI_MODE_3; break;
+      default:
+        this->dataMode = SERCOM_SPI_MODE_0; break;
+    }
+  }
+
+  uint32_t clockFreq;
+  SercomSpiClockMode dataMode;
+  SercomDataOrder bitOrder;
+
+  friend class SPIClass;
+};
+
+class SPIClass {
+  public:
+  SPIClass(SERCOM *p_sercom, uint8_t uc_pinMISO, uint8_t uc_pinSCK, uint8_t uc_pinMOSI, SercomSpiTXPad, SercomRXPad);
+
 
   byte transfer(uint8_t data);
   uint16_t transfer16(uint16_t data);
@@ -79,33 +128,29 @@ class SPIClassSAMD : public arduino::HardwareSPI {
   SercomSpiTXPad _padTx;
   SercomRXPad _padRx;
 
-  SPISettings settings;
-
   bool initialized;
   uint8_t interruptMode;
   char interruptSave;
   uint32_t interruptMask;
 };
 
-//#define SPIClass SPIClassSAMD
-
 #if SPI_INTERFACES_COUNT > 0
-  extern SPIClassSAMD SPI;
+  extern SPIClass SPI;
 #endif
 #if SPI_INTERFACES_COUNT > 1
-  extern SPIClassSAMD SPI1;
+  extern SPIClass SPI1;
 #endif
 #if SPI_INTERFACES_COUNT > 2
-  extern SPIClassSAMD SPI2;
+  extern SPIClass SPI2;
 #endif
 #if SPI_INTERFACES_COUNT > 3
-  extern SPIClassSAMD SPI3;
+  extern SPIClass SPI3;
 #endif
 #if SPI_INTERFACES_COUNT > 4
-  extern SPIClassSAMD SPI4;
+  extern SPIClass SPI4;
 #endif
 #if SPI_INTERFACES_COUNT > 5
-  extern SPIClassSAMD SPI5;
+  extern SPIClass SPI5;
 #endif
 
 // For compatibility with sketches designed for AVR @ 16 MHz
@@ -118,6 +163,16 @@ class SPIClassSAMD : public arduino::HardwareSPI {
   #define SPI_CLOCK_DIV32  96
   #define SPI_CLOCK_DIV64  192
   #define SPI_CLOCK_DIV128 255
-#endif
+#endif /* F_CPU == 48000000 */
+#if F_CPU == 120000000
+  #define SPI_CLOCK_DIV2   15
+  #define SPI_CLOCK_DIV4   30
+  #define SPI_CLOCK_DIV8   60
+  #define SPI_CLOCK_DIV16  120
+  #define SPI_CLOCK_DIV32  240
+  #define SPI_CLOCK_DIV64  480
+  #define SPI_CLOCK_DIV128 960
+#endif /* F_CPU == 120000000 */
+
 
 #endif

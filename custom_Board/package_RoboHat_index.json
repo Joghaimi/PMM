@@ -6,7 +6,7 @@
       "maintainer": "PMM LLC",
       "websiteURL": "PMM-USA.COM",
       "email" : "ahmad.joghaimi@gmail.com",
-      "platforms":
+      "platforms":  
       [
         {
           "name": "Robo HAT Boards",
@@ -15,8 +15,8 @@
           "category": "Contributed",
           "url": "https://github.com/Joghaimi/PMM/blob/main/custom_Board/RoboHat-0.0.26.zip?raw=true",
           "archiveFileName": "RoboHat-0.0.26.zip",
-          "checksum": "SHA-256:9A3E68BB774CE3DAA714CF6971286E1DB45863524621656E806D6486B592FE62",
-          "size": "9113600",
+          "checksum": "SHA-256:89274D89E2388A22F1BB293B916C6745507D1BA51C5B548D6668B9F931FC3618",
+          "size": "12396549",
           "boards": [
             {
               "name": "Robo HAT MM1"

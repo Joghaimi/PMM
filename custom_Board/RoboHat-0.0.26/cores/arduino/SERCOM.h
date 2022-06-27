@@ -19,7 +19,7 @@
 #ifndef _SERCOM_CLASS_
 #define _SERCOM_CLASS_
 
-#include <samd.h>
+#include "sam.h"
 
 #define SERCOM_FREQ_REF      48000000
 #define SERCOM_NVIC_PRIORITY ((1<<__NVIC_PRIO_BITS) - 1)
@@ -158,7 +158,6 @@ class SERCOM
 		bool availableDataUART( void ) ;
 		bool isBufferOverflowErrorUART( void ) ;
 		bool isFrameErrorUART( void ) ;
-		void clearFrameErrorUART( void ) ;
 		bool isParityErrorUART( void ) ;
 		bool isDataRegisterEmptyUART( void ) ;
 		uint8_t readDataUART( void ) ;
@@ -202,8 +201,6 @@ class SERCOM
 		bool isSlaveWIRE( void ) ;
 		bool isBusIdleWIRE( void ) ;
 		bool isBusOwnerWIRE( void ) ;
-		bool isArbLostWIRE( void );
-		bool isBusBusyWIRE( void );
 		bool isDataReadyWIRE( void ) ;
 		bool isStopDetectedWIRE( void ) ;
 		bool isRestartDetectedWIRE( void ) ;
@@ -218,11 +215,6 @@ class SERCOM
 		uint8_t calculateBaudrateSynchronous(uint32_t baudrate) ;
 		uint32_t division(uint32_t dividend, uint32_t divisor) ;
 		void initClockNVIC( void ) ;
-
-		// Flag set when data is loaded into sercom->USART.DATA.reg.
-		// Helps with preventing UART lockups when flushing on startup
-		// and the asyncronous nature of the DRE and TXC interrupt flags.
-		bool onFlushWaitUartTXC = false;
 };
 
 #endif

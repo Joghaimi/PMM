@@ -15,7 +15,7 @@ Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
 #include "usbhub.h"
-#include "api/Common.h"
+#include "delay.h"
 
 bool USBHub::bResetInitiated = false;
 

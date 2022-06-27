@@ -7,7 +7,7 @@
  created 8 Oct 2012
  by Cristian Maglie
 
- https://www.arduino.cc/en/Tutorial/MouseController
+ http://arduino.cc/en/Tutorial/MouseController
 
  This sample code is part of the public domain.
  */
@@ -22,9 +22,9 @@ USBHost usb;
 MouseController mouse(usb);
 
 // variables for mouse button states
-bool leftButton = false;
-bool middleButton = false;
-bool rightButton = false;
+boolean leftButton = false;
+boolean middleButton = false;
+boolean rightButton = false;
 
 // This function intercepts mouse movements
 void mouseMoved() {

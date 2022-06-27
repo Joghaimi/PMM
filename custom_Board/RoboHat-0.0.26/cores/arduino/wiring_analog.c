@@ -125,7 +125,7 @@ void analogReference(eAnalogReference mode)
   }
 }
 
-int analogRead(pin_size_t pin)
+uint32_t analogRead(uint32_t pin)
 {
   uint32_t valueRead = 0;
 
@@ -135,8 +135,7 @@ int analogRead(pin_size_t pin)
 
   pinPeripheral(pin, PIO_ANALOG);
 
-  // Disable DAC, if analogWrite() was used previously to enable the DAC
-  if ((g_APinDescription[pin].ulADCChannelNumber == ADC_Channel0) || (g_APinDescription[pin].ulADCChannelNumber == DAC_Channel0)) {
+  if (pin == A0) { // Disable DAC, if analogWrite(A0,dval) used previously the DAC is enabled
     syncDAC();
     DAC->CTRLA.bit.ENABLE = 0x00; // Disable DAC
     //DAC->CTRLB.bit.EOEN = 0x00; // The DAC output is turned off.
@@ -165,9 +164,6 @@ int analogRead(pin_size_t pin)
   syncADC();
   ADC->SWTRIG.bit.START = 1;
 
-  // Waiting for the 1st conversion to complete
-  while (ADC->INTFLAG.bit.RESRDY == 0);
-
   // Clear the Data Ready flag
   ADC->INTFLAG.reg = ADC_INTFLAG_RESRDY;
 
@@ -191,7 +187,7 @@ int analogRead(pin_size_t pin)
 // hardware support.  These are defined in the appropriate
 // pins_*.c file.  For the rest of the pins, we default
 // to digital output.
-void analogWrite(pin_size_t pin, int value)
+void analogWrite(uint32_t pin, uint32_t value)
 {
   PinDescription pinDesc = g_APinDescription[pin];
   uint32_t attr = pinDesc.ulPinAttribute;
@@ -200,7 +196,7 @@ void analogWrite(pin_size_t pin, int value)
   {
     // DAC handling code
 
-    if ((pinDesc.ulADCChannelNumber != ADC_Channel0) && (pinDesc.ulADCChannelNumber != DAC_Channel0)) { // Only 1 DAC on AIN0 / PA02
+    if (pin != PIN_A0) { // Only 1 DAC on A0 (PA02)
       return;
     }
 

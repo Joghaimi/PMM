@@ -6,26 +6,33 @@
 // Refer to the "Wire Slave Sender" example for use with this
 
 // Created 29 March 2006
+// Updated 22 October 2020
 
 // This example code is in the public domain.
 
 
 #include <Wire.h>
 
+#define SEN_ADDR    0x69
+#define REG_REQUEST 0x14
+
 void setup()
 {
-  Wire.begin();        // join i2c bus (address optional for master)
-  Serial.begin(9600);  // start serial for output
+  Wire.begin();      
+  Serial.begin(115200);  // Start serial for output
 }
 
 void loop()
 {
-  Wire.requestFrom(2, 6);    // request 6 bytes from slave device #2
+  Wire.beginTransmission(SEN_ADDR); // Begin at sensor's address
+  Wire.write(REG_REQUEST); //Request information from specified register
+  Wire.endTransmission(); 
 
-  while(Wire.available())    // slave may send less than requested
+  Wire.requestFrom(SEN_ADDR, 2); // Expecting two bytes
+  while(Wire.available())    // Sensor may send less than requested
   { 
-    char c = Wire.read(); // receive a byte as character
-    Serial.print(c);         // print the character
+    uint8_t c = Wire.read(); // Read single byte
+    Serial.println(c, HEX); // Print byte as a hex value
   }
 
   delay(500);

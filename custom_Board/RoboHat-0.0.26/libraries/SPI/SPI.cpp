@@ -26,30 +26,9 @@
 #define SPI_IMODE_EXTINT 1
 #define SPI_IMODE_GLOBAL 2
 
-//const SPISettings DEFAULT_SPI_SETTINGS = SPISettings();
+const SPISettings DEFAULT_SPI_SETTINGS = SPISettings();
 
-static inline SercomDataOrder getBitOrder(SPISettings& settings) {
-  return (settings.getBitOrder() == MSBFIRST ? MSB_FIRST : LSB_FIRST);
-}
-
-static inline SercomSpiClockMode getDataMode(SPISettings& settings) {
-    switch (settings.getDataMode())
-    {
-      case SPI_MODE0:
-        return SERCOM_SPI_MODE_0; break;
-      case SPI_MODE1:
-        return SERCOM_SPI_MODE_1; break;
-      case SPI_MODE2:
-        return SERCOM_SPI_MODE_2; break;
-      case SPI_MODE3:
-        return SERCOM_SPI_MODE_3; break;
-      default:
-        return SERCOM_SPI_MODE_0; break;
-    }
-}
-
-SPIClassSAMD::SPIClassSAMD(SERCOM *p_sercom, uint8_t uc_pinMISO, uint8_t uc_pinSCK, uint8_t uc_pinMOSI, SercomSpiTXPad PadTx, SercomRXPad PadRx)
-: settings(0, MSBFIRST, SPI_MODE0)
+SPIClass::SPIClass(SERCOM *p_sercom, uint8_t uc_pinMISO, uint8_t uc_pinSCK, uint8_t uc_pinMOSI, SercomSpiTXPad PadTx, SercomRXPad PadRx)
 {
   initialized = false;
   assert(p_sercom != NULL);
@@ -65,7 +44,7 @@ SPIClassSAMD::SPIClassSAMD(SERCOM *p_sercom, uint8_t uc_pinMISO, uint8_t uc_pinS
   _padRx=PadRx;
 }
 
-void SPIClassSAMD::begin()
+void SPIClass::begin()
 {
   init();
 
@@ -77,7 +56,7 @@ void SPIClassSAMD::begin()
   config(DEFAULT_SPI_SETTINGS);
 }
 
-void SPIClassSAMD::init()
+void SPIClass::init()
 {
   if (initialized)
     return;
@@ -87,25 +66,17 @@ void SPIClassSAMD::init()
   initialized = true;
 }
 
-void SPIClassSAMD::config(SPISettings settings)
+void SPIClass::config(SPISettings settings)
 {
-  if (this->settings != settings) {
-    this->settings = settings;
-    _p_sercom->disableSPI();
+  _p_sercom->disableSPI();
 
-    uint32_t clock_freq = settings.getClockFreq();
-    if (clock_freq > SERCOM_FREQ_REF/SPI_MIN_CLOCK_DIVIDER) {
-      clock_freq = SERCOM_FREQ_REF/SPI_MIN_CLOCK_DIVIDER;
-    }
+  _p_sercom->initSPI(_padTx, _padRx, SPI_CHAR_SIZE_8_BITS, settings.bitOrder);
+  _p_sercom->initSPIClock(settings.dataMode, settings.clockFreq);
 
-    _p_sercom->initSPI(_padTx, _padRx, SPI_CHAR_SIZE_8_BITS, getBitOrder(settings));
-    _p_sercom->initSPIClock(getDataMode(settings), clock_freq);
-
-    _p_sercom->enableSPI();
-  }
+  _p_sercom->enableSPI();
 }
 
-void SPIClassSAMD::end()
+void SPIClass::end()
 {
   _p_sercom->resetSPI();
   initialized = false;
@@ -121,7 +92,7 @@ static inline unsigned char __interruptsStatus(void)
 }
 #endif
 
-void SPIClassSAMD::usingInterrupt(int interruptNumber)
+void SPIClass::usingInterrupt(int interruptNumber)
 {
   if ((interruptNumber == NOT_AN_INTERRUPT) || (interruptNumber == EXTERNAL_INT_NMI))
     return;
@@ -141,7 +112,7 @@ void SPIClassSAMD::usingInterrupt(int interruptNumber)
     interrupts();
 }
 
-void SPIClassSAMD::notUsingInterrupt(int interruptNumber)
+void SPIClass::notUsingInterrupt(int interruptNumber)
 {
   if ((interruptNumber == NOT_AN_INTERRUPT) || (interruptNumber == EXTERNAL_INT_NMI))
     return;
@@ -161,7 +132,7 @@ void SPIClassSAMD::notUsingInterrupt(int interruptNumber)
     interrupts();
 }
 
-void SPIClassSAMD::beginTransaction(SPISettings settings)
+void SPIClass::beginTransaction(SPISettings settings)
 {
   if (interruptMode != SPI_IMODE_NONE)
   {
@@ -177,7 +148,7 @@ void SPIClassSAMD::beginTransaction(SPISettings settings)
   config(settings);
 }
 
-void SPIClassSAMD::endTransaction(void)
+void SPIClass::endTransaction(void)
 {
   if (interruptMode != SPI_IMODE_NONE)
   {
@@ -191,7 +162,7 @@ void SPIClassSAMD::endTransaction(void)
   }
 }
 
-void SPIClassSAMD::setBitOrder(BitOrder order)
+void SPIClass::setBitOrder(BitOrder order)
 {
   if (order == LSBFIRST) {
     _p_sercom->setDataOrderSPI(LSB_FIRST);
@@ -200,7 +171,7 @@ void SPIClassSAMD::setBitOrder(BitOrder order)
   }
 }
 
-void SPIClassSAMD::setDataMode(uint8_t mode)
+void SPIClass::setDataMode(uint8_t mode)
 {
   switch (mode)
   {
@@ -225,7 +196,7 @@ void SPIClassSAMD::setDataMode(uint8_t mode)
   }
 }
 
-void SPIClassSAMD::setClockDivider(uint8_t div)
+void SPIClass::setClockDivider(uint8_t div)
 {
   if (div < SPI_MIN_CLOCK_DIVIDER) {
     _p_sercom->setBaudrateSPI(SPI_MIN_CLOCK_DIVIDER);
@@ -234,12 +205,12 @@ void SPIClassSAMD::setClockDivider(uint8_t div)
   }
 }
 
-byte SPIClassSAMD::transfer(uint8_t data)
+byte SPIClass::transfer(uint8_t data)
 {
   return _p_sercom->transferDataSPI(data);
 }
 
-uint16_t SPIClassSAMD::transfer16(uint16_t data) {
+uint16_t SPIClass::transfer16(uint16_t data) {
   union { uint16_t val; struct { uint8_t lsb; uint8_t msb; }; } t;
 
   t.val = data;
@@ -255,7 +226,7 @@ uint16_t SPIClassSAMD::transfer16(uint16_t data) {
   return t.val;
 }
 
-void SPIClassSAMD::transfer(void *buf, size_t count)
+void SPIClass::transfer(void *buf, size_t count)
 {
   uint8_t *buffer = reinterpret_cast<uint8_t *>(buf);
   for (size_t i=0; i<count; i++) {
@@ -264,11 +235,11 @@ void SPIClassSAMD::transfer(void *buf, size_t count)
   }
 }
 
-void SPIClassSAMD::attachInterrupt() {
+void SPIClass::attachInterrupt() {
   // Should be enableInterrupt()
 }
 
-void SPIClassSAMD::detachInterrupt() {
+void SPIClass::detachInterrupt() {
   // Should be disableInterrupt()
 }
 
@@ -287,21 +258,21 @@ void SPIClassSAMD::detachInterrupt() {
     #define PAD_SPI_TX           SPI_PAD_2_SCK_3
     #define PAD_SPI_RX           SERCOM_RX_PAD_0
   #endif // PERIPH_SPI
-  SPIClassSAMD SPI (&PERIPH_SPI,  PIN_SPI_MISO,  PIN_SPI_SCK,  PIN_SPI_MOSI,  PAD_SPI_TX,  PAD_SPI_RX);
+  SPIClass SPI (&PERIPH_SPI,  PIN_SPI_MISO,  PIN_SPI_SCK,  PIN_SPI_MOSI,  PAD_SPI_TX,  PAD_SPI_RX);
 #endif
 #if SPI_INTERFACES_COUNT > 1
-  SPIClassSAMD SPI1(&PERIPH_SPI1, PIN_SPI1_MISO, PIN_SPI1_SCK, PIN_SPI1_MOSI, PAD_SPI1_TX, PAD_SPI1_RX);
+  SPIClass SPI1(&PERIPH_SPI1, PIN_SPI1_MISO, PIN_SPI1_SCK, PIN_SPI1_MOSI, PAD_SPI1_TX, PAD_SPI1_RX);
 #endif
 #if SPI_INTERFACES_COUNT > 2
-  SPIClassSAMD SPI2(&PERIPH_SPI2, PIN_SPI2_MISO, PIN_SPI2_SCK, PIN_SPI2_MOSI, PAD_SPI2_TX, PAD_SPI2_RX);
+  SPIClass SPI2(&PERIPH_SPI2, PIN_SPI2_MISO, PIN_SPI2_SCK, PIN_SPI2_MOSI, PAD_SPI2_TX, PAD_SPI2_RX);
 #endif
 #if SPI_INTERFACES_COUNT > 3
-  SPIClassSAMD SPI3(&PERIPH_SPI3, PIN_SPI3_MISO, PIN_SPI3_SCK, PIN_SPI3_MOSI, PAD_SPI3_TX, PAD_SPI3_RX);
+  SPIClass SPI3(&PERIPH_SPI3, PIN_SPI3_MISO, PIN_SPI3_SCK, PIN_SPI3_MOSI, PAD_SPI3_TX, PAD_SPI3_RX);
 #endif
 #if SPI_INTERFACES_COUNT > 4
-  SPIClassSAMD SPI4(&PERIPH_SPI4, PIN_SPI4_MISO, PIN_SPI4_SCK, PIN_SPI4_MOSI, PAD_SPI4_TX, PAD_SPI4_RX);
+  SPIClass SPI4(&PERIPH_SPI4, PIN_SPI4_MISO, PIN_SPI4_SCK, PIN_SPI4_MOSI, PAD_SPI4_TX, PAD_SPI4_RX);
 #endif
 #if SPI_INTERFACES_COUNT > 5
-  SPIClassSAMD SPI5(&PERIPH_SPI5, PIN_SPI5_MISO, PIN_SPI5_SCK, PIN_SPI5_MOSI, PAD_SPI5_TX, PAD_SPI5_RX);
+  SPIClass SPI5(&PERIPH_SPI5, PIN_SPI5_MISO, PIN_SPI5_SCK, PIN_SPI5_MOSI, PAD_SPI5_TX, PAD_SPI5_RX);
 #endif
 
