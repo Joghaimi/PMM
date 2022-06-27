@@ -15,8 +15,8 @@
           "category": "Contributed",
           "url": "https://github.com/Joghaimi/PMM/blob/main/custom_Board/PMM-0.0.26.zip?raw=true",
           "archiveFileName": "PMM-0.0.26.zip",
-          "checksum": "SHA-256:84D14B709B4AFF63845E6B1E89588A0C3A906D9B2036279BB1C1A534B0EF96E8",
-          "size": "16839624",
+          "checksum": "SHA-256:08AA02866920C2DDABB268EF8A5D2E0A3ACB9B117CCDE2C6F9CF75A0E3F847CA",
+          "size": "7282688",
           "boards": [
             {
               "name": "PMM0620"
