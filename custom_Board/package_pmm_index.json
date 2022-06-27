@@ -16,7 +16,7 @@
           "url": "https://github.com/Joghaimi/PMM/blob/main/custom_Board/PMM-0.0.26.zip?raw=true",
           "archiveFileName": "RoboHat-0.0.26.zip",
           "checksum": "SHA-256:a7e9b4f05b5c931823e82ff44ea68678181ed6eaba4c7c34a35a595ae5ad1dd7",
-          "size": "8773152",
+          "size": "8428973",
           "boards": [
             {
               "name": "PMM0620"
