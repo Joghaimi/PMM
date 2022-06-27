@@ -25,7 +25,7 @@ extern unsigned long countPulseASM(const volatile uint32_t *port, uint32_t bit, 
  * or LOW, the type of pulse to measure.  Works on pulses from 2-3 microseconds
  * to 3 minutes in length, but must be called at least a few dozen microseconds
  * before the start of the pulse. */
-uint32_t pulseIn(uint32_t pin, uint32_t state, uint32_t timeout)
+uint32_t pulseIn(pin_size_t pin, uint8_t state, uint32_t timeout)
 {
   // cache the port and bit of the pin in order to speed up the
   // pulse width measuring loop and achieve finer resolution.  calling
@@ -34,36 +34,6 @@ uint32_t pulseIn(uint32_t pin, uint32_t state, uint32_t timeout)
   uint32_t bit = 1 << p.ulPin;
   uint32_t stateMask = state ? bit : 0;
 
-#if defined(__SAMD51__)
-  /*
-   * The SAMD51 is fast enough to use really obvious code (similar to
-   * what was used to produce pulse_asm.S, but using micros() for timing.
-   * No assembly required, no conversion of loop counts to times (which is
-   * worrisome in the presence of cache.)
-   */
-  const volatile uint32_t *port = &(PORT->Group[p.ulPort].IN.reg);
-  uint32_t usCallStart;  // microseconds at start of call, for timeout.
-  uint32_t usPulseStart; // microseconds at start of measured pulse.
-  usCallStart = usPulseStart = micros();
-  // wait for any previous pulse to end
-  while ((*port & bit) == stateMask) {
-      if (micros() - usCallStart > timeout)
-          return -1;
-  }
-  // wait for the pulse to start
-  while ((*port & bit) != stateMask) {
-      usPulseStart = micros();
-      if (usPulseStart - usCallStart > timeout)
-          return -2;
-  }
-
-  // wait for the pulse to stop
-  while ((*port & bit) == stateMask) {
-      if (micros() - usCallStart > timeout)
-          return -3;
-  }
-  return micros() - usPulseStart;
-#else
   // convert the timeout from microseconds to a number of times through
   // the initial loop; it takes (roughly) 13 clock cycles per iteration.
   uint32_t maxloops = microsecondsToClockCycles(timeout) / 13;
@@ -78,6 +48,5 @@ uint32_t pulseIn(uint32_t pin, uint32_t state, uint32_t timeout)
     return clockCyclesToMicroseconds(width * 13 + 16);
   else
     return 0;
-#endif // SAMD51
 }
 

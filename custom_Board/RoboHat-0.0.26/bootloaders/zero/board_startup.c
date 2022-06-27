@@ -54,7 +54,7 @@ extern int main(void);
 extern void __libc_init_array(void);
 
 /* Exception Table */
-__attribute__ ((section(".isr_vector")))
+__attribute__ ((used, section(".isr_vector")))
 const struct ConstVectors exception_table =
 {
   /* Configure Initial Stack Pointer, using linker-generated symbols */
@@ -137,11 +137,5 @@ void SVC_Handler(void)
 void PendSV_Handler(void)
 {
   __BKPT(2);
-  while (1);
-}
-
-void SysTick_Handler(void)
-{
-  __BKPT(1);
   while (1);
 }

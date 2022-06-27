@@ -15,8 +15,8 @@
           "category": "Contributed",
           "url": "https://github.com/Joghaimi/PMM/blob/main/custom_Board/RoboHat-0.0.26.zip?raw=true",
           "archiveFileName": "RoboHat-0.0.26.zip",
-          "checksum": "SHA-256:8A632DEBD77E57BEF8E80EF4BE11CB21FB0B10D6CBE446CE10D240D5AD771B16",
-          "size": "8454144",
+          "checksum": "SHA-256:9A3E68BB774CE3DAA714CF6971286E1DB45863524621656E806D6486B592FE62",
+          "size": "9113600",
           "boards": [
             {
               "name": "Robo HAT MM1"
