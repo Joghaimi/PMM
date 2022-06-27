@@ -9,7 +9,7 @@
       "platforms":
       [
         {
-          "name": "Robo HAT Boards",
+          "name": "PMM",
           "architecture": "samd",
           "version": "0.0.26",
           "category": "Contributed",
@@ -19,7 +19,7 @@
           "size": "8773152",
           "boards": [
             {
-              "name": "Robo HAT MM1"
+              "name": "PMM0620"
             }
           ],
           "toolsDependencies":
