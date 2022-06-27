@@ -2,10 +2,10 @@
   "packages":
   [
     {
-      "name": "robohat",
-      "maintainer": "Robotics Masters",
-      "websiteURL": "https://roboticsmasters.co",
-      "email" : "techsupport@roboticsmasters.co",
+      "name": "PMM",
+      "maintainer": "PMM LLC",
+      "websiteURL": "PMM-USA.COM",
+      "email" : "ahmad.joghaimi@gmail.com",
       "platforms":
       [
         {
@@ -13,7 +13,7 @@
           "architecture": "samd",
           "version": "0.0.26",
           "category": "Contributed",
-          "url": "https://github.com/robotics-masters/mm1-hat-arduino/blob/master/custom_board/RoboHat-0.0.26.zip?raw=true",
+          "url": "https://github.com/Joghaimi/PMM/blob/main/custom_Board/PMM-0.0.26.zip?raw=true",
           "archiveFileName": "RoboHat-0.0.26.zip",
           "checksum": "SHA-256:1927B1B20B0FFA36D1F1BFBA028F90756CEE82B42227C898417ABCFA56ADC6F6",
           "size": "8773152",
