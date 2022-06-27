@@ -9,29 +9,7 @@
         "online": "https://learn.sparkfun.com/tutorials/installing-arduino-ide/board-add-ons-with-arduino-board-manager"
       },
       "platforms": [
-        {
-          "name": "SparkFun SAMD Boards (dependency: Arduino SAMD Boards 1.6.5)",
-          "architecture": "samd",
-          "version": "1.0.0",
-          "category": "Contributed",
-          "url": "https://github.com/Joghaimi/PMM/blob/main/custom_Board/sparkfun-samd-1.0.0.tar.bz2",
-          "archiveFileName": "sparkfun-samd-1.0.0.tar.bz2",
-          "checksum": "SHA-256:12E0BE6862A3A28B6515755DCAD2842757CAF4E5270326554F95059512EBAAB5",
-          "size": "268954",
-          "help": {
-            "online": "https://learn.sparkfun.com/tutorials/installing-arduino-ide/board-add-ons-with-arduino-board-manager"
-          },
-          "boards": [
-            {
-              "name": "SparkFun SAMD21 Mini Breakout"
-            },
-            {
-              "name": "SparkFun SAMD21 Dev Breakout"
-            }
-          ],
-          "toolsDependencies": []
-        },
-     
+       
         {
           "name": "SparkFun SAMD Boards  (dependency: Arduino SAMD Boards 1.8.1)",
           "architecture": "samd",
