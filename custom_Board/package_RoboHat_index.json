@@ -1,7 +1,7 @@
 {
   "packages": [
     {
-      "name": "PMM",
+      "name": "PMM",  
       "maintainer": "PMM LLC",
       "websiteURL": "https://SparkFun.com",
       "email": "TechSupport@SparkFun.com",
@@ -15,10 +15,10 @@
           "architecture": "samd",
           "version": "1.8.7",
           "category": "Contributed",
-          "url": "https://github.com/Joghaimi/PMM/blob/main/custom_Board/sparkfun-samd-1.0.0.tar.bz2",
-          "archiveFileName": "sparkfun-samd-1.0.0.tar.bz2",
-          "checksum": "SHA-256:12e0be6862a3a28b6515755dcad2842757caf4e5270326554f95059512ebaab5",
-          "size": "268954",
+          "url": "https://github.com/Joghaimi/PMM/blob/main/custom_Board/sparkfun-samd-1.0.0.zip",
+          "archiveFileName": "sparkfun-samd-1.0.0.zip",
+          "checksum": "SHA-256:4EA867F9F2F21F44F38633BE49EA36E60CE4DB2D6EDD3FD5B05F28A1E3AE262F",
+          "size": "455642",
           "help": {
             "online": "https://learn.sparkfun.com/tutorials/installing-arduino-ide/board-add-ons-with-arduino-board-manager"
           },
