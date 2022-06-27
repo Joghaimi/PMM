@@ -17,8 +17,8 @@
           "category": "Contributed",
           "url": "https://github.com/Joghaimi/PMM/blob/main/custom_Board/sparkfun-samd-1.0.0.zip",
           "archiveFileName": "sparkfun-samd-1.0.0.zip",
-          "checksum": "SHA-256:4EA867F9F2F21F44F38633BE49EA36E60CE4DB2D6EDD3FD5B05F28A1E3AE262F",
-          "size": "455642",
+          "checksum": "SHA-256:26287B897CE6BED452785515E848E6DBF9520B4672E9984F80DDDD0927956096",
+          "size": "446530",
           "help": {
             "online": "https://learn.sparkfun.com/tutorials/installing-arduino-ide/board-add-ons-with-arduino-board-manager"
           },
