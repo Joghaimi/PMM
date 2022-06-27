@@ -28,6 +28,8 @@
 
 #ifdef CDC_ENABLED
 
+using namespace arduino;
+
 extern USBDevice_SAMD21G18x usbd;
 
 #define CDC_SERIAL_BUFFER_SIZE	256
@@ -199,7 +201,7 @@ void Serial_::begin(uint32_t /* baud_count */)
 	// uart config is ignored in USB-CDC
 }
 
-void Serial_::begin(uint32_t /* baud_count */, uint8_t /* config */)
+void Serial_::begin(uint32_t /* baud_count */, uint16_t /* config */)
 {
 	// uart config is ignored in USB-CDC
 }

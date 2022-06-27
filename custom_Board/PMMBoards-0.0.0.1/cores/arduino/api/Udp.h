@@ -89,4 +89,4 @@ protected:
 
 }
 
-using namespace arduino;
+using arduino::UDP;

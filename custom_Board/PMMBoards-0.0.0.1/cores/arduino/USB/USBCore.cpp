@@ -31,6 +31,7 @@
 #include <stdint.h>
 #include <limits.h>
 
+using namespace arduino;
 
 /*
  * USB Device instance
@@ -479,8 +480,8 @@ void USBDeviceClass::stall(uint32_t ep)
 bool USBDeviceClass::connected()
 {
 	// Count frame numbers
-	uint8_t f = USB->DEVICE.FNUM.bit.FNUM;
-	//delay(3);
+	uint16_t f = USB->DEVICE.FNUM.bit.FNUM;
+	delay(1); // wait for next SOF
 	return f != USB->DEVICE.FNUM.bit.FNUM;
 }
 
