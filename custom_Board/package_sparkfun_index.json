@@ -62,8 +62,9 @@
 			    ]
 		    }
       ],
-      "email": "elias.santistevan@sparkfun.com",
-      "name": "SparkFun"
+      "tools":
+      [
+      ]
     }
   ]
 }
