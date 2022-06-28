@@ -1,16 +1,13 @@
 /*
   Copyright (c) 2014-2015 Arduino LLC.  All right reserved.
-
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
   License as published by the Free Software Foundation; either
   version 2.1 of the License, or (at your option) any later version.
-
   This library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
   See the GNU Lesser General Public License for more details.
-
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -33,7 +30,7 @@
 #define VARIANT_MCK			  (48000000ul)
 
 /*----------------------------------------------------------------------------
- *        Headers
+ *        Headers ahamd
  *----------------------------------------------------------------------------*/
 
 #include "WVariant.h"
@@ -58,7 +55,7 @@ extern "C" unsigned int PINCOUNT_fn();
 #endif
 #define PINS_COUNT           (PINCOUNT_fn())
 #define NUM_DIGITAL_PINS     (20u)
-#define NUM_ANALOG_INPUTS    (6u)
+#define NUM_ANALOG_INPUTS    (9u)
 #define NUM_ANALOG_OUTPUTS   (1u)
 #define analogInputToDigitalPin(p)  ((p < 6u) ? (p) + 14u : -1)
 
@@ -97,6 +94,13 @@ extern "C" unsigned int PINCOUNT_fn();
 #define PIN_A3               (17ul)
 #define PIN_A4               (18ul)
 #define PIN_A5               (19ul)
+// Add For 0632
+#define PIN_A6               (4ul)
+#define PIN_A7               (3ul)
+#define PIN_A8               (1ul)
+#define PIN_A9               (0ul)
+
+
 #define PIN_DAC0             (14ul)
 
 static const uint8_t A0  = PIN_A0;
@@ -105,6 +109,13 @@ static const uint8_t A2  = PIN_A2;
 static const uint8_t A3  = PIN_A3;
 static const uint8_t A4  = PIN_A4;
 static const uint8_t A5  = PIN_A5;
+
+static const uint8_t A6  = PIN_A6;
+static const uint8_t A7  = PIN_A7;
+static const uint8_t A8  = PIN_A8;
+static const uint8_t A9  = PIN_A9;
+
+
 static const uint8_t DAC0 = PIN_DAC0;
 #define ADC_RESOLUTION		12
 
@@ -198,6 +209,8 @@ extern SERCOM sercom5;
 
 extern Uart Serial;
 extern Uart Serial1;
+extern Uart Serial2;
+extern Uart Serial3;
 
 #endif
 
@@ -231,4 +244,3 @@ unsigned int PINCOUNT_fn();
 #define SERIAL_PORT_HARDWARE_OPEN   Serial1
 
 #endif /* _VARIANT_ARDUINO_ZERO_ */
-
