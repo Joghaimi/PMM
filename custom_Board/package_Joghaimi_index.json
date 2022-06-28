@@ -18,7 +18,48 @@
           "checksum": "SHA-256:0EC444716F7CB4A5CD55440C7AD8A840127AFF6AB87496A0310EB6488CC55BDF",
           "size": "4474892",
           "boards": [
-            {"name": "PMM0620"},
+            {"name": "PMM0620"}
+           
+          ],
+          "toolsDependencies":
+          [
+            {
+              "packager": "arduino",
+              "name": "arm-none-eabi-gcc",
+              "version": "7-2017q4"
+            },
+            {
+              "packager": "arduino",
+              "name": "bossac",
+              "version": "1.8.0-48-gb176eee"
+            },
+            {
+              "packager": "arduino",
+              "name": "openocd",
+              "version": "0.10.0-arduino9"
+            },
+            {
+              "packager": "arduino",
+              "name": "CMSIS",
+              "version": "4.5.0"
+            },
+            {
+              "packager": "arduino",
+              "name": "CMSIS-Atmel",
+              "version": "1.2.0"
+            }
+          ]
+        },
+        { 
+          "name": "PMM Boards",
+          "architecture": "samd",
+          "version": "0.0.26",
+          "category": "Contributed",
+          "url": "https://github.com/Joghaimi/PMM/blob/main/custom_Board/Joghaimi.zip?raw=true",
+          "archiveFileName": "Joghaimi.zip",
+          "checksum": "SHA-256:0EC444716F7CB4A5CD55440C7AD8A840127AFF6AB87496A0310EB6488CC55BDF",
+          "size": "4474892",
+          "boards": [
             {"name": "PMM0625"}
            
           ],
