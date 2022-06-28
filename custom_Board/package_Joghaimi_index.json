@@ -18,7 +18,8 @@
           "checksum": "SHA-256:0EC444716F7CB4A5CD55440C7AD8A840127AFF6AB87496A0310EB6488CC55BDF",
           "size": "4474892",
           "boards": [
-            {"name": "PMM0620"}
+            {"name": "PMM0620"},
+            {"name": "PMM0627"}
            
           ],
           "toolsDependencies":
