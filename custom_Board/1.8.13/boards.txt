@@ -17,7 +17,7 @@
 
 # Arduino Zero (Native USB Port)
 # --------------------------------------
-arduino_zero_native.name=pmm0620 (Native USB Port)
+arduino_zero_native.name=PMM0620 (Native USB Port)
 arduino_zero_native.vid.0=0x2341
 arduino_zero_native.pid.0=0x804d
 arduino_zero_native.vid.1=0x2341
