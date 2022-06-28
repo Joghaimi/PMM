@@ -15,8 +15,8 @@
           "category": "Contributed",
           "url": "https://github.com/Joghaimi/PMM/blob/main/custom_Board/Joghaimi.zip?raw=true",
           "archiveFileName": "Joghaimi.zip",
-          "checksum": "SHA-256:68B952D37D933EE9B44C17332243AFACEC2849CC2492E2D46B4F3C60C02751F4",
-          "size": "8636844",
+          "checksum": "SHA-256:669299D2E22BCEB9E986758D33B0E596A9D8DF00F3924C20B1A5DE4588925D24",
+          "size": "7256530",
           "boards": [
             {
               "name": "SparkFun SAMD21 Dev Breakout"
