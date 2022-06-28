@@ -15,11 +15,11 @@
           "category": "Contributed",
           "url": "https://github.com/Joghaimi/PMM/blob/main/custom_Board/Joghaimi.zip?raw=true",
           "archiveFileName": "Joghaimi.zip",
-          "checksum": "SHA-256:669299D2E22BCEB9E986758D33B0E596A9D8DF00F3924C20B1A5DE4588925D24",
-          "size": "7256530",
+          "checksum": "SHA-256:A251E2E6142D7DA44CC7C8ECC27A5F30E1F84115B1C9FBC2364EAEFF7F769977",
+          "size": "4621411",
           "boards": [
             {
-              "name": "SparkFun SAMD21 Dev Breakout"
+              "name": "pmm0620"
             }
           ],
           "toolsDependencies":
