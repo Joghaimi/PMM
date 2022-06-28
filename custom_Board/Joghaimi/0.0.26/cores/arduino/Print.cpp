@@ -186,6 +186,16 @@ size_t Print::println(const Printable& x)
   return n;
 }
 
+void Print::printf(const char format[], ...)
+{
+  char buf[PRINTF_BUF];
+  va_list ap;
+  va_start(ap, format);
+  vsnprintf(buf, sizeof(buf), format, ap);
+  write(buf);
+  va_end(ap);
+}
+
 // Private Methods /////////////////////////////////////////////////////////////
 
 size_t Print::printNumber(unsigned long n, uint8_t base)
@@ -245,7 +255,7 @@ size_t Print::printFloat(double number, uint8_t digits)
   while (digits-- > 0)
   {
     remainder *= 10.0;
-    int toPrint = int(remainder);
+    unsigned int toPrint = (unsigned int)remainder;
     n += print(toPrint);
     remainder -= toPrint;
   }
