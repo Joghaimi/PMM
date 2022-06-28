@@ -231,8 +231,8 @@ SERCOM sercom5(SERCOM5);
 
 Uart Serial1(&sercom0, PIN_SERIAL1_RX, PIN_SERIAL1_TX, PAD_SERIAL1_RX, PAD_SERIAL1_TX);
 Uart Serial(&sercom5, PIN_SERIAL_RX, PIN_SERIAL_TX, PAD_SERIAL_RX, PAD_SERIAL_TX);
-Uart Serial2(&sercom1, 11, 10, SERCOM_RX_PAD_0, UART_TX_PAD_2);
-Uart Serial3(&sercom2, 3, 4, SERCOM_RX_PAD_1, UART_TX_PAD_0);
+// Uart Serial2(&sercom1, 11, 10, SERCOM_RX_PAD_0, UART_TX_PAD_2);
+// Uart Serial3(&sercom2, 3, 4, SERCOM_RX_PAD_1, UART_TX_PAD_0);
 
 /// ============== Test Area
 // #include <webPagesEEPROMSetting.h>
@@ -251,14 +251,14 @@ void SERCOM0_Handler()
 {
   Serial1.IrqHandler();
 }
-void SERCOM1_Handler()
-{
-  Serial2.IrqHandler();
-}
-void SERCOM2_Handler()
-{
-  Serial3.IrqHandler();
-}
+// void SERCOM1_Handler()
+// {
+//   Serial2.IrqHandler();
+// }
+// void SERCOM2_Handler()
+// {
+//   Serial3.IrqHandler();
+// }
 void SERCOM5_Handler()
 {
   Serial.IrqHandler();
