@@ -31,16 +31,9 @@
 
 #include "Stream.h"
 #include "RingBuffer.h"
-#ifdef __SAMR21G18A__
-#include "SAMR21_USBDevice.h"
-#else
-#include "SAMD21_USBDevice.h"
-#endif
 
 //================================================================================
 // USB
-
-class EPHandler;
 
 // Low level API
 typedef struct {
@@ -65,15 +58,12 @@ public:
 
 	// USB Device API
 	void init();
-	bool end();
 	bool attach();
 	bool detach();
 	void setAddress(uint32_t addr);
 
 	bool configured();
 	bool connected();
-
-	void standby();
 
 	// Setup API
 	bool handleClassInterfaceSetup(USBSetup &setup);
@@ -93,13 +83,12 @@ public:
 	// Generic EndPoint API
 	void initEndpoints(void);
 	void initEP(uint32_t ep, uint32_t type);
-	void setHandler(uint32_t ep, EPHandler *handler);
 	void handleEndpoint(uint8_t ep);
 
 	uint32_t send(uint32_t ep, const void *data, uint32_t len);
 	void sendZlp(uint32_t ep);
 	uint32_t recv(uint32_t ep, void *data, uint32_t len);
-	int recv(uint32_t ep);
+	uint32_t recv(uint32_t ep);
 	uint32_t available(uint32_t ep);
 	void flush(uint32_t ep);
 	void stall(uint32_t ep);
@@ -123,13 +112,13 @@ extern USBDeviceClass USBDevice;
 class Serial_ : public Stream
 {
 public:
-	Serial_(USBDeviceClass &_usb) : usb(_usb), stalled(false) { }
+	Serial_(USBDeviceClass &_usb) : usb(_usb) { }
 	void begin(uint32_t baud_count);
 	void begin(unsigned long, uint8_t);
 	void end(void);
 
 	virtual int available(void);
-	virtual int availableForWrite(void);
+	virtual void accept(void);
 	virtual int peek(void);
 	virtual int read(void);
 	virtual void flush(void);
@@ -137,8 +126,6 @@ public:
 	virtual size_t write(const uint8_t *buffer, size_t size);
 	using Print::write; // pull in write(str) from Print
 	operator bool();
-
-	size_t readBytes(char *buffer, size_t length);
 
 	// This method allows processing "SEND_BREAK" requests sent by
 	// the USB host. Those requests indicate that the host wants to
@@ -180,13 +167,10 @@ public:
 	};
 
 private:
-	int availableForStore(void);
-
 	USBDeviceClass &usb;
 	RingBuffer *_cdc_rx_buffer;
-	bool stalled;
 };
-extern Serial_ Serial;
+extern Serial_ SerialUSB;
 
 //================================================================================
 //================================================================================

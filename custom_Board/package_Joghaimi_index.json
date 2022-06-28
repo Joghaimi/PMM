@@ -19,7 +19,7 @@
           "size": "3840635",
           "boards": [
             {
-              "name": "PMM0620"
+              "name": "SparkFun SAMD21 Dev Breakout"
             }
           ],
           "toolsDependencies":
