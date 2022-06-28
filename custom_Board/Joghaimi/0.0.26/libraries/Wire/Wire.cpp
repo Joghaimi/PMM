@@ -43,9 +43,9 @@ void TwoWire::begin(void) {
   pinPeripheral(_uc_pinSCL, g_APinDescription[_uc_pinSCL].ulPinType);
 }
 
-void TwoWire::begin(uint8_t address) {
+void TwoWire::begin(uint8_t address, bool enableGeneralCall) {
   //Slave mode
-  sercom->initSlaveWIRE(address);
+  sercom->initSlaveWIRE(address, enableGeneralCall);
   sercom->enableWIRE();
 
   pinPeripheral(_uc_pinSDA, g_APinDescription[_uc_pinSDA].ulPinType);
@@ -153,27 +153,15 @@ uint8_t TwoWire::endTransmission()
 
 size_t TwoWire::write(uint8_t ucData)
 {
-  if(sercom->isMasterWIRE())
+  // No writing, without begun transmission or a full buffer
+  if ( !transmissionBegun || txBuffer.isFull() )
   {
-    // No writing, without begun transmission or a full buffer
-    if ( !transmissionBegun || txBuffer.isFull() )
-    {
-      return 0 ;
-    }
-
-    txBuffer.store_char( ucData ) ;
-
-    return 1 ;
-  }
-  else
-  {
-    if(sercom->sendDataSlaveWIRE( ucData ))
-    {
-      return 1;
-    }
+    return 0 ;
   }
 
-  return 0;
+  txBuffer.store_char( ucData ) ;
+
+  return 1 ;
 }
 
 size_t TwoWire::write(const uint8_t *data, size_t quantity)
@@ -246,9 +234,9 @@ void TwoWire::onService(void)
 
       if(sercom->isMasterReadOperationWIRE()) //Is a request ?
       {
-        // wait for data ready flag,
-        // before calling request callback
-        while(!sercom->isDataReadyWIRE());
+        txBuffer.clear();
+
+        transmissionBegun = true;
 
         //Calling onRequestCallback, if exists
         if(onRequestCallback)
@@ -257,18 +245,29 @@ void TwoWire::onService(void)
         }
       }
     }
-    else if(sercom->isDataReadyWIRE()) //Received data
+    else if(sercom->isDataReadyWIRE())
     {
-      if (rxBuffer.isFull()) {
-        sercom->prepareNackBitWIRE(); 
-      } else {
-        //Store data
-        rxBuffer.store_char(sercom->readDataWIRE());
+      if (sercom->isMasterReadOperationWIRE())
+      {
+        uint8_t c = 0xff;
 
-        sercom->prepareAckBitWIRE(); 
+        if( txBuffer.available() ) {
+          c = txBuffer.read_char();
+        }
+
+        transmissionBegun = sercom->sendDataSlaveWIRE(c);
+      } else { //Received data
+        if (rxBuffer.isFull()) {
+          sercom->prepareNackBitWIRE(); 
+        } else {
+          //Store data
+          rxBuffer.store_char(sercom->readDataWIRE());
+
+          sercom->prepareAckBitWIRE(); 
+        }
+
+        sercom->prepareCommandBitsWire(0x03);
       }
-
-      sercom->prepareCommandBitsWire(0x03);
     }
   }
 }
@@ -288,6 +287,13 @@ void TwoWire::onService(void)
   void WIRE_IT_HANDLER(void) {
     Wire.onService();
   }
+
+  #if defined(__SAMD51__)
+    void WIRE_IT_HANDLER_0(void) { Wire.onService(); }
+    void WIRE_IT_HANDLER_1(void) { Wire.onService(); }
+    void WIRE_IT_HANDLER_2(void) { Wire.onService(); }
+    void WIRE_IT_HANDLER_3(void) { Wire.onService(); }
+  #endif // __SAMD51__
 #endif
 
 #if WIRE_INTERFACES_COUNT > 1
@@ -296,6 +302,13 @@ void TwoWire::onService(void)
   void WIRE1_IT_HANDLER(void) {
     Wire1.onService();
   }
+
+  #if defined(__SAMD51__)
+    void WIRE1_IT_HANDLER_0(void) { Wire1.onService(); }
+    void WIRE1_IT_HANDLER_1(void) { Wire1.onService(); }
+    void WIRE1_IT_HANDLER_2(void) { Wire1.onService(); }
+    void WIRE1_IT_HANDLER_3(void) { Wire1.onService(); }
+  #endif // __SAMD51__
 #endif
 
 #if WIRE_INTERFACES_COUNT > 2
@@ -304,6 +317,13 @@ void TwoWire::onService(void)
   void WIRE2_IT_HANDLER(void) {
     Wire2.onService();
   }
+
+  #if defined(__SAMD51__)
+    void WIRE2_IT_HANDLER_0(void) { Wire2.onService(); }
+    void WIRE2_IT_HANDLER_1(void) { Wire2.onService(); }
+    void WIRE2_IT_HANDLER_2(void) { Wire2.onService(); }
+    void WIRE2_IT_HANDLER_3(void) { Wire2.onService(); }
+  #endif // __SAMD51__
 #endif
 
 #if WIRE_INTERFACES_COUNT > 3
@@ -312,6 +332,13 @@ void TwoWire::onService(void)
   void WIRE3_IT_HANDLER(void) {
     Wire3.onService();
   }
+
+  #if defined(__SAMD51__)
+    void WIRE3_IT_HANDLER_0(void) { Wire3.onService(); }
+    void WIRE3_IT_HANDLER_1(void) { Wire3.onService(); }
+    void WIRE3_IT_HANDLER_2(void) { Wire3.onService(); }
+    void WIRE3_IT_HANDLER_3(void) { Wire3.onService(); }
+  #endif // __SAMD51__
 #endif
 
 #if WIRE_INTERFACES_COUNT > 4
@@ -320,6 +347,13 @@ void TwoWire::onService(void)
   void WIRE4_IT_HANDLER(void) {
     Wire4.onService();
   }
+
+  #if defined(__SAMD51__)
+    void WIRE4_IT_HANDLER_0(void) { Wire4.onService(); }
+    void WIRE4_IT_HANDLER_1(void) { Wire4.onService(); }
+    void WIRE4_IT_HANDLER_2(void) { Wire4.onService(); }
+    void WIRE4_IT_HANDLER_3(void) { Wire4.onService(); }
+  #endif // __SAMD51__
 #endif
 
 #if WIRE_INTERFACES_COUNT > 5
@@ -328,5 +362,12 @@ void TwoWire::onService(void)
   void WIRE5_IT_HANDLER(void) {
     Wire5.onService();
   }
+
+  #if defined(__SAMD51__)
+    void WIRE5_IT_HANDLER_0(void) { Wire5.onService(); }
+    void WIRE5_IT_HANDLER_1(void) { Wire5.onService(); }
+    void WIRE5_IT_HANDLER_2(void) { Wire5.onService(); }
+    void WIRE5_IT_HANDLER_3(void) { Wire5.onService(); }
+  #endif // __SAMD51__
 #endif
 
