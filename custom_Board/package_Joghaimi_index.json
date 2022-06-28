@@ -19,7 +19,7 @@
           "size": "4474892",
           "boards": [
             {"name": "PMM0620"},
-            {"name": "PMM0627"}
+            {"name": "PMM0625"}
            
           ],
           "toolsDependencies":
