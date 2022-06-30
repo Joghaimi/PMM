@@ -1,7 +1,7 @@
 {
   "packages":
   [
-    { 
+    {  
       "name": "PMM",
       "maintainer": "PMM LLC",
       "websiteURL": "PMM-USA.COM",
@@ -19,7 +19,7 @@
           "size": "4474892",
           "boards": [
             {"name": "PMM0625"},
-            {"name": "PMM0625"}
+            {"name": "PMM0620"}
            
           ],
           "toolsDependencies":
