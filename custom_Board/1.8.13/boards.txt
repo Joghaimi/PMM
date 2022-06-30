@@ -49,6 +49,7 @@ arduino_zero_native.build.mcu=cortex-m0plus
 arduino_zero_native.build.f_cpu=48000000L
 arduino_zero_native.build.usb_product="pmm0620"
 arduino_zero_native.build.usb_manufacturer="PMM LLC"
+arduino_zero_native.build.usb_product="PMM0620"
 arduino_zero_native.build.board=pmm0620
 arduino_zero_native.build.core=arduino
 arduino_zero_native.build.extra_flags=-D__SAMD21G18A__ {build.usb_flags}
@@ -84,7 +85,7 @@ PMM0625.upload_port.2.pid=0x824d
 PMM0625.upload_port.3.vid=0x2341
 PMM0625.upload_port.3.pid=0x024d
 PMM0625.upload_port.4.board=arduino_zero_native
-
+PMM0625.build.usb_product="PMM0620"
 PMM0625.upload.tool=bossac
 PMM0625.upload.tool.default=bossac
 PMM0625.upload.tool.network=arduino_ota
