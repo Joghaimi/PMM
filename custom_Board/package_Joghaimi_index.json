@@ -15,12 +15,14 @@
           "category": "Contributed",
           "url": "https://github.com/Joghaimi/PMM/blob/main/custom_Board/Joghaimi.zip?raw=true",
           "archiveFileName": "Joghaimi.zip",
-          "checksum": "SHA-256:9CA3E315944FCAAD5A7890B0BEB59D94AE2E9A068501E9795AC1BD987E5B4FFD",
-          "size": "4489092",
+          "checksum": "SHA-256:2C6941E329013F1EFCE4E65545EC911D1F29DA43770EEAC59992F9975E89C057",
+          "size": "4531049",
           "boards": [
             {"name": "PMM0620"},
             {"name": "PMM0625"},
-            {"name": "PMM0626"}
+            {"name": "PMM0626"},
+            {"name": "PMM0628"},
+            {"name": "PMM0632"}
            
           ],
           "toolsDependencies":
