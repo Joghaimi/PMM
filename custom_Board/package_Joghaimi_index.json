@@ -9,7 +9,7 @@
       "platforms":
       [
         { 
-          "name": "PMM Boards",
+          "name": "PMM Boards", 
           "architecture": "samd",
           "version": "0.0.26",
           "category": "Contributed",
