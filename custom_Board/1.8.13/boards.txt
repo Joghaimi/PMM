@@ -543,5 +543,106 @@ PMM0638.bootloader.tool.default=openocd
 PMM0638.bootloader.file=zero/samd21_sam_ba.bin
 
 
+# PMM0639 (Native USB Port)
+# --------------------------------------
+PMM0639.name=PMM0639 (Native USB Port)
+PMM0639.vid.0=0x2341
+PMM0639.pid.0=0x804d
+PMM0639.vid.1=0x2341
+PMM0639.pid.1=0x004d
+PMM0639.vid.2=0x2341
+PMM0639.pid.2=0x824d
+PMM0639.vid.3=0x2341
+PMM0639.pid.3=0x024d
+PMM0639.upload_port.0.vid=0x2341
+PMM0639.upload_port.0.pid=0x804d
+PMM0639.upload_port.1.vid=0x2341
+PMM0639.upload_port.1.pid=0x004d
+PMM0639.upload_port.2.vid=0x2341
+PMM0639.upload_port.2.pid=0x824d
+PMM0639.upload_port.3.vid=0x2341
+PMM0639.upload_port.3.pid=0x024d
+PMM0639.upload_port.4.board=arduino_zero_native
+PMM0639.build.usb_product="PMM0639"
+PMM0639.upload.tool=bossac
+PMM0639.upload.tool.default=bossac
+PMM0639.upload.tool.network=arduino_ota
+PMM0639.upload.protocol=sam-ba
+PMM0639.upload.maximum_size=262144
+PMM0639.upload.maximum_data_size=32768
+PMM0639.upload.use_1200bps_touch=true
+PMM0639.upload.wait_for_upload_port=true
+PMM0639.upload.native_usb=true
+PMM0639.build.mcu=cortex-m0plus
+PMM0639.build.f_cpu=48000000L
+PMM0639.build.usb_product="pmm0639"
+PMM0639.build.usb_manufacturer="PMM LLC"
+PMM0639.build.board=pmm0639
+PMM0639.build.core=arduino
+PMM0639.build.extra_flags=-D__SAMD21G18A__ {build.usb_flags}
+PMM0639.build.ldscript=linker_scripts/gcc/flash_with_bootloader.ld
+PMM0639.build.openocdscript=openocd_scripts/arduino_zero.cfg
+PMM0639.build.variant=pmm0639
+PMM0639.build.variant_system_lib=
+PMM0639.build.vid=0x2341
+PMM0639.build.pid=0x804d
+PMM0639.bootloader.tool=openocd
+PMM0639.bootloader.tool.default=openocd
+PMM0639.bootloader.file=zero/samd21_sam_ba.bin
+
+
+
+
+
+
+
+# PMM0612 (Native USB Port)
+# --------------------------------------
+PMM0612.name=PMM0612 (Native USB Port)
+PMM0612.vid.0=0x2341
+PMM0612.pid.0=0x804d
+PMM0612.vid.1=0x2341
+PMM0612.pid.1=0x004d
+PMM0612.vid.2=0x2341
+PMM0612.pid.2=0x824d
+PMM0612.vid.3=0x2341
+PMM0612.pid.3=0x024d
+PMM0612.upload_port.0.vid=0x2341
+PMM0612.upload_port.0.pid=0x804d
+PMM0612.upload_port.1.vid=0x2341
+PMM0612.upload_port.1.pid=0x004d
+PMM0612.upload_port.2.vid=0x2341
+PMM0612.upload_port.2.pid=0x824d
+PMM0612.upload_port.3.vid=0x2341
+PMM0612.upload_port.3.pid=0x024d
+PMM0612.upload_port.4.board=arduino_zero_native
+PMM0612.build.usb_product="PMM0612"
+PMM0612.upload.tool=bossac
+PMM0612.upload.tool.default=bossac
+PMM0612.upload.tool.network=arduino_ota
+PMM0612.upload.protocol=sam-ba
+PMM0612.upload.maximum_size=262144
+PMM0612.upload.maximum_data_size=32768
+PMM0612.upload.use_1200bps_touch=true
+PMM0612.upload.wait_for_upload_port=true
+PMM0612.upload.native_usb=true
+PMM0612.build.mcu=cortex-m0plus
+PMM0612.build.f_cpu=48000000L
+PMM0612.build.usb_product="pmm0612"
+PMM0612.build.usb_manufacturer="PMM LLC"
+PMM0612.build.board=pmm0612
+PMM0612.build.core=arduino
+PMM0612.build.extra_flags=-D__SAMD21G18A__ {build.usb_flags}
+PMM0612.build.ldscript=linker_scripts/gcc/flash_with_bootloader.ld
+PMM0612.build.openocdscript=openocd_scripts/arduino_zero.cfg
+PMM0612.build.variant=pmm0612
+PMM0612.build.variant_system_lib=
+PMM0612.build.vid=0x2341
+PMM0612.build.pid=0x804d
+PMM0616.bootloader.tool=openocd
+PMM0612.bootloader.tool.default=openocd
+PMM0612.bootloader.file=zero/samd21_sam_ba.bin
+
+
 
 
